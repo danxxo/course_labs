@@ -4,150 +4,13 @@
 <a href="https://daringfireball.net/projects/markdown"><img src="https://img.shields.io/static/v1?logo=markdown&logoColor=fff&label=&message=Markdown&color=36393f&style=flat" alt="Markdown"></a> 
 <a href="https://symbl.cc/en/unicode-table"><img src="https://img.shields.io/static/v1?logo=unicode&logoColor=fff&label=&message=Unicode&color=36393f&style=flat" alt="Unicode"></a> 
 <a href="https://shields.io"><img src="https://img.shields.io/static/v1?logo=shieldsdotio&logoColor=fff&label=&message=Shields&color=36393f&style=flat" alt="Shields"></a>
+<img alt="Ubuntu Package Version" src="https://img.shields.io/ubuntu/v/ubuntu-wallpapers">
+
 <a href="https://img.shields.io/badge/Risk_Analyze-2448a2"><img src="https://img.shields.io/badge/Course-Risk_Analysis-2448a2" alt= "RA"></a> <img src="https://img.shields.io/badge/AppSec-2448a2" alt= "RA"></a> <img src="https://img.shields.io/badge/Contributor-Шмаков_И._С.-8b9aff" alt="Contributor Badge"></a></div>
-
-***
-
-<br>Салют :wave:, </br>
-Данная лабораторная работа посвещена изучению *nix машин и как они работают, позволяет приобрести навыки для работы с терминалом/ консолью и приобрести знания по работе ОС. В лабоработрной работе описываются материалы по командам, скриптам и подключаемым приложениям.
-
-Для сдачи данной работы также будет требоваться ответить на дополнительыне вопросы по описанным темам.
-
-***
-
-## База
-
-Давайте начнем с описания как это работает, но следует подойти к этому вопросу изначально с **терминов**, таких как: 
-
-- **Терминал** — устройство ввода/ вывода
-- **Оболочка операционной системы** `shell` — оболочка интерпретатор команд обеспечивающий интерфейс для взаимодействия пользователя с функциями ОС. В Linux стандартной оболочкой по умолчанию является bash с командами:
-> - `env` – выводит список переменных окружения
-> - `export` – экспортирует переменные окружения
-> - `echo` – выводит что передано в качестве параметра
-> - `reset` – возврат настроек терминала к значениям по умолчанию
-> - `logout` – завершение сеанса
-> - `exit` – завершение сеанса оболочки 
-
-- **Консоль** — интерфей скомандной строки с командами для работы с файлами
-
-> - `ls` – вывод содержимого каталога
-> - `cd` – смена текущего каталога
-> - `touch` – создание файла
-> - `mkdir` – создание каталога
-> - `rm` / `rmdir` - удаление файлаф
-> - `cp` - копирование
-> - `mv` - перенос
-> - `ln` – создание ссылок на файлы
-> - `cat` / `tac` – вывод содежимого файла
-> - `df` - отчёт об использовании дискового пространства
-> - `du` - отчёт об используемом месте на диске
-> - `wc` – подсчет размера, числа, символов и тд.
-> - `uniq` – нахождение дублирующихся строк
-> - `grep` – поиск пошаблону
-
-- **Файловая система**, которая представляет собой пути каталогов к файлам с определенными правами для пользователей
-
-> - `/bin` – исполняемые файлы, которые содержат исполняемые программы и скрипты
-> - `/sbin` – исполяемые файлы и системное ПО
-> - `/dev` – файлы устройств
-> - `/etc` – файлы конфигурации, который является централизованным хранилищем настроек системы и приложений. Если не предполагает иметь более одного конфига, то располагается непосредственно в нем, в другом случае создает каталог для размещения
-> - `/lib` – системные библиотеки
-> - `/home` – каталоги пользователей
-> - `/root` – каталог суперпользователя
-> - `/usr` – размещение приложений
-> - `/var` – данные приложений 
-> - `/tmp` – временный каталог системы
-> - `/var/tmp` – временные каталоги приложений
-> - `/proc` – файловый интерфейс ОС
-> - `/mnt` – монтирование сетевых ФС
-> - `/media` – монтирование съемных ФС
-> - `/boot` – загрузчики ядра системы
-> - `/sys` – интерфейс устройства ОС
-
-- Для ОС *nix используются следующие **переменные окружения:**
-
-> - `SHELL` – путь текущего пользователя
-> - `USER` – пользователь
-> - `HOME` – домашний каталог пользователя
-> - `PATH` – содержит пути для поиска файлов по умолчанию
-> - `PWD` – указывает на текущий каталог
-> - `LANG` – определяет текущие настройки локали
-
-***
-
-## Права доступа
-
-При монтировании образа для каждой *nix ОС задаются права доступа к файлам и путям каталогов, которые позволяют их индивидуально профилировать, а также изменять, но давайте посмотрим на общую картину, советую ознакомиться изначально с Петром Девянином и его описанием `take-grant` [модели](https://academia-moscow.ru/ftp_share/_books/fragments/fragment_20276.pdf). Система безопасности построена на:
-
-> - chmod — изменение прав доступа
-
-```bash
-$ chmod [-R] [option] [rules] # пользователь может менять только у принадлежащих ему файлов, а root у всех файлов в системе
-```
-
-> - umask — маска прав доступа
-дляполученияреальныхправвновь
-. 
-> - chown — изменение владельца
-
-```bash
-$ chown [-R] user[:group] file # доступна только для root
-         -R # рекурсивная смена
-```
-
-> - chgrp — изменение группы
-
-```bash
-$ chgrp [-R] group ... file # изменение группы файла для пользователя только там, где он является ее членом
-```
-
-У каждого файла или каталога имеются определенные права доступа, такие как:
-
-> - r — право на чтение из файла / просмотр содержимого директории
-> - w — право на запись в файл / создание, удаление файлов в директории
-> - x — право на исполнение / доступ в директорию и сабдиректории
-
-По умолчанию права для директории **777**, а для файлов **666**. А теперь давайте посмотрим, как можно поменять права. На сейчас все `*nix` поддерживают `POSIX ACL`, который позволяет указать права доступа для конкретных пользователей и групп.
-
-```bash
-$ getfacl [option] file ... # показывает список access list
-$ setfacl [option] file ... # устанавливает или удаляет access list
-         -m # изменение или установка
-         -х # удаление
-         
-# Пример
-$ setfacl -m u:user1:rw file # для пользователя
-$ setfacl -m g:users:r file # для группы
-$ setfacl -m m::rw file для # маски
-
-```
- 
-***
-
-## Процессы
-
-А теперь давай посмотрим, что каждому выполняемому процессу присваивается уникальный номер `PID` Process ID, где его ID после завершения процесса высвобождается. У всех процессов в системе кроме самого первого (**PID = 1** - `init`) есть родительские, которые запускают процесс. 
-
-```bash
-$ ps [option] # список процессо в всистеме
-    -a # список всех процессов привязанных к терминалу
-    -x # ... не привязанных к терминалу
-    —е # показывает все процессы системы
-    -f # показывает дерево процессов
-    -u user # список процессов пользователя
-$ pstree # дерево процессов
-
-$ kill [-l] PID # пример как можно вывести спиок всех сигналов
-$ killall [-signal] # определение процесса по имени
-```
-
-После завершения работы родительского процесса у наследователя становится init. Также, если `shell` заканчивает работу, то все процессы будут завершены. Но если надо, что бы программа работала далее без оболочки, то ее необходимо запускать при помощи `nohup`, так как отключает программу от терминала. А теперь, все вы знаете про `daemon`, а это именно то, что работает после запуска и сразу же отключается от терминала.
-
-***
 
 ## Задание
 
-- [ ] 1. Выведите на терминале и проанализируйте следующие команды консоли
+- [x] 1. Выведите на терминале и проанализируйте следующие команды консоли
 
 ```bash
 $ who | wc -I
@@ -156,9 +19,85 @@ $ whoami
 $ hostnamectl
 ```
 
-- [ ] 2. Выведите утилитой `tree` список вложенности дерева диреторий для каталога своего пользователя. Далее используйте `ls -a` и укажите отличие от `ls -l`.
-- [ ] 3. Используйте утилиту `file` и `df` для определения какая файловая система на разделе `/dev/sda1`.
-- [ ] 4. Выведите на терминале и проанализируйте следующие команды консоли
+(ssh localhost)
+```bash
+$ who
+user     tty2         2025-11-30 00:31 (tty2)
+user     pts/5        2025-12-01 03:57 (127.0.0.1)
+```
+
+```bash
+$ id
+uid=1000(user) gid=1000(user) groups=1000(user),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),122(lpadmin),134(lxd),135(sambashare),999(docker)
+```
+Выводится:
+- id пользователя (uid)
+- группа пользователя (gid)
+- группы в которых состоит пользователь
+
+```bash
+$ whoami
+user
+```
+вывод имени пользователя
+
+```bash
+$ hostnamectl
+ Static hostname: production
+       Icon name: computer-vm
+         Chassis: vm
+      Machine ID: af929eab89bd477e9120fab4fb6a451e
+         Boot ID: 7d690ffe01e9441d905ba8d8a5a511f2
+  Virtualization: oracle
+Operating System: Ubuntu 22.04.5 LTS              
+          Kernel: Linux 6.8.0-87-generic
+    Architecture: x86-64
+ Hardware Vendor: innotek GmbH
+  Hardware Model: VirtualBox
+```
+
+информация о системе
+
+- [x] 2. Выведите утилитой `tree` список вложенности дерева диреторий для каталога своего пользователя. Далее используйте `ls -a` и укажите отличие от `ls -l`.
+
+```bash
+$ tree -L 1 -d ~/
+/home/user/
+├── CLionProjects
+├── Desktop
+├── Documents
+├── Downloads
+├── go
+├── goprj
+├── Music
+├── Pictures
+├── production-server-main
+├── Public
+├── semaphore
+├── snap
+├── Templates
+└── Videos
+```
+- `-L 1` - глубина
+- `-d` - только директории
+
+- [x] 3. Используйте утилиту `file` и `df` для определения какая файловая система на разделе `/dev/sda1`.
+
+```bash
+$ sudo file -s /dev/sda3
+/dev/sda3: Linux rev 1.0 ext4 filesystem data, UUID=c61eb2d7-856c-4d47-9a5e-f117b36edf32
+```
+- `-s` - просмотр устройств
+
+```bash
+$ df -h -T /dev/sda3
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/sda3      ext4   39G   29G  7,8G  79% /
+```
+- `-h` - human readable
+- `-T` - показать тип ФС
+
+- [x] 4. Выведите на терминале и проанализируйте следующие команды консоли
 
 ```bash
 $ which vi
@@ -172,7 +111,51 @@ $ sudo updated
 $ locate screen
 ```
 
-- [ ]  5. Используйте конструкцию и вставьте ее в созданный файл ранее. Подключите `pygame` - используем исключительно для стилизации окна.
+```bash
+$ which vi
+/usr/bin/vi
+
+$ echo $PATH
+/home/user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/user/go/bin:/home/user/goprj/bin
+```
+Поиск исполняемого файла в $PATH
+
+```bash
+$ locate hello.py
+/home/user/Documents/RISKI/course_labs/labs/lab02/exmpl_hello.py
+/home/user/Documents/RISKI/course_labs/labs/lab05/source/hello.py
+/home/user/Documents/RISKI/lab01/hello.py
+/home/user/Documents/blockchain/hello-world/deploy_hello.py
+/snap/gnome-3-38-2004/112/usr/lib/x86_64-linux-gnu/peas-demo/plugins/pythonhello/pythonhello.py
+...
+```
+Поиск `hello.py` в `/var/lib/plocate/plocate.db`
+
+```bash
+$ sudo updatedb
+```
+Обновление `/var/lib/plocate/plocate.db`
+
+```bash
+$ touch screen
+-rw-rw-r-- 1 user user    0 дек  1 04:29 screen
+```
+Создание файла `screen`
+
+```bash
+$ find ~ -name screen
+/home/user/Documents/RISKI/course_labs/labs/lab02/screen
+```
+
+Поиск в `~` файла `screen`
+
+```bash
+$ locate screen | grep RISKI
+/home/user/Documents/RISKI/course_labs/labs/lab02/screen
+```
+
+
+- [x]  5. Используйте конструкцию и вставьте ее в созданный файл ранее. Подключите `pygame` - используем исключительно для стилизации окна.
 
 ```py
 import pygame
@@ -203,8 +186,11 @@ while True:
 pygame.display.flip() # Обновляем экран
 ```
 
-- [ ] 6. Сделайте `commit` и `push` в свой репозиторий с изменениями в `master branch`. На следующих лабораторных работах мы вернемся к этому файлу.
-- [ ] 7. Выведите на терминале и проанализируйте следующие команды консоли
+- [x] 6. Сделайте `commit` и `push` в свой репозиторий с изменениями в `master branch`. На следующих лабораторных работах мы вернемся к этому файлу.
+```bash
+git commit -S -m "lab2.6"
+```
+- [x] 7. Выведите на терминале и проанализируйте следующие команды консоли
 
 ```bash
 $ groups
@@ -220,23 +206,200 @@ $ usermod -aG readgroup smallman
 $ chmod 666 screen 
 ```
 
+```bash
+$ groups
+user adm cdrom sudo dip plugdev lpadmin lxd sambashare docker
+```
 
-- [ ] 8. Выведите группу прав для `screen` и измените, что бы файл был доступен только для чтения созданному пользователю и выведите права этого польователя для измененного файла только используя `readgroup`.
-- [ ] 9. Используйте `POSIX ACL`. Выведите на терминале и проанализируйте следующие команды консоли
+Список групп
+
+```bash
+$ useradd smallman
+```
+Создает пользователя без домашней папки и пароля
+
+```bash
+$ userdel smallman -rf
+userdel: smallman mail spool (/var/mail/smallman) not found
+userdel: smallman home directory (/home/smallman) not found
+```
+
+Удаляет пользователя
+- `-r` - удаление домашней папки (ошибки)
+- `-f` - force - даже если залогинен
+
+```bash
+$ useradd smallman
+$ passwd smallman
+
+New password: 
+BAD PASSWORD: The password is shorter than 8 characters
+Retype new password: 
+passwd: password updated successfully
+```
+
+Установка пароля для пользователя
+
+```bash
+$ sudo usermod smallman -c 'Hach Hachov Hacherovich,239,45-67,499-239-45-33'
+$ getent passwd smallman 
+
+smallman:x:1502:1502:Hach Hachov Hacherovich,239,45-67,499-239-45-33:/home/smallman:/bin/sh
+```
+
+Изменяет комментарий для пользователя
+
+```bash
+uid=1502(smallman) gid=1502(smallman) groups=1502(smallman),1600(readgroup)
+```
+
+smallman добавлен в `readgroup`
+
+- [x] 8. Выведите группу прав для `screen` и измените, что бы файл был доступен только для чтения созданному пользователю и выведите права этого польователя для измененного файла только используя `readgroup`.
+
+```
+-rw-rw-rw- 1 user user 0 дек  1 04:29 screen
+
+$ sudo chgrp readgroup screen
+$ ls -la screen 
+-rw-r----- 1 user readgroup 0 дек  1 04:29 screen
+```
+- [x] 9. Используйте `POSIX ACL`. Выведите на терминале и проанализируйте следующие команды консоли
 
 ```bash
 $ touch nmapres.txt
 $ setfacl -m u:smallman:rw nmapres.txt
 $ setfacl -m g:readgroup:r nmapres.txt
 $ getfacl nmapres.txt
+
+# file: nmapres.txt
+# owner: user
+# group: user
+user::rw-
+user:smallman:rw-
+group::rw-
+group:readgroup:r--
+mask::rw-
+other::r--
 ```
 
-- [ ] 10. Сохраните файл внутри локального репозитория, так как следующая работа будет подразумевать запись в нее данных о nmap.
-- [ ] 11. Для закрепления выведите все списки групп пользователей на вашей ОС и права на верхнеуровневые каталоги.
-- [ ] 12. Выведите все права для файлов и директорий локального репозитория которые имеют различные пользователи  (без использования длинных путей)
+- [x] 10. Сохраните файл внутри локального репозитория, так как следующая работа будет подразумевать запись в нее данных о nmap.
+- [x] 11. Для закрепления выведите все списки групп пользователей на вашей ОС и права на верхнеуровневые каталоги.
+
+```bash
+$ getent group | cut -d: -f1
+root
+daemon
+bin
+sys
+adm
+tty
+disk
+...
+```
+
+- `getent group` - получить записи из /etc/group
+- `cut -d:` - обрезать по разделителю `:`
+- `-f1` - вывести первое поле
+
+- [x] 12. Выведите все права для файлов и директорий локального репозитория которые имеют различные пользователи  (без использования длинных путей)
+
+```
+$ cd ~/Documents/RISKI/course_labs && tree -a -p -u -g -I '.git'
+
+[drwxrwxr-x user     user    ]  .
+├── [-rw-rw-r-- user     user    ]  APPENDIX.md
+├── [drwxrwxr-x user     user    ]  artifacts
+│   ├── [drwxrwxr-x user     user    ]  art_cheatsheet
+│   │   ├── [-rw-rw-r-- user     user    ]  Docker_Image_Security_Best_Practices.pdf
+│   │   └── [-rw-rw-r-- user     user    ]  gitscm.jpg
+│   ├── [drwxrwxr-x user     user    ]  cheatsheet
+│   │   ├── [-rw-rw-r-- user     user    ]  CHEATSHEET_DOCKERIGNORE.md
+│   │   ├── [-rw-rw-r-- user     user    ]  CHEATSHEET_DOCKER.md
+│   │   ├── [-rw-rw-r-- user     user    ]  CHEATSHEET_GH_CLI.md
+│   │   ├── [-rw-rw-r-- user     user    ]  CHEATSHEET_GITIGNORE.md
+│   │   └── [-rw-rw-r-- user     user    ]  CHEATSHEET_GIT.md
+│   ├── [drwxrwxr-x user     user    ]  exmpls
+│   │   ├── [-rw-rw-r-- user     user    ]  Аналитический отчет по уязвимости PrintNightmare.pdf
+│   │   ├── [-rw-rw-r-- user     user    ]  Пример - Multisignature - Безопасности криптовалютных платежей.pdf
+│   │   └── [-rw-rw-r-- user     user    ]  Пример_аналитических_отчетов_по_задачам_ИБ.pdf
+│   ├── [drwxrwxr-x user     user    ]  owasp
+│   │   ├── [-rw-rw-r-- user     user    ]  OWASP_Top_10_CICD_Risks.pdf
+│   │   ├── [-rw-rw-r-- user     user    ]  Авторизация (Authorization).pdf
+│   │   ├── [-rw-rw-r-- user     user    ]  Атаки на клиентов (Client-side Attacks).pdf
+│   │   ├── [-rw-rw-r-- user     user    ]  Аутентификация (Authentication).pdf
+│   │   ├── [-rw-rw-r-- user     user    ]  Выполнение кода (Command Execution).pdf
+│   │   ├── [-rw-rw-r-- user     user    ]  Логические атаки (Logical Attacks).pdf
+│   │   └── [-rw-rw-r-- user     user    ]  Разглашение информации (Information Disclosure).pdf
+│   └── [drwxrwxr-x user     user    ]  ppt
+│       └── [-rw-rw-r-- user     user    ]  Лекция_Управление Рисками ИБ_intro.pdf
+├── [drwxrwxr-x user     user    ]  assets
+│   ├── [drwxrwxr-x user     user    ]  logotype
+│   │   ├── [-rw-rw-r-- user     user    ]  logo2.jpg
+│   │   └── [-rw-rw-r-- user     user    ]  logo.jpg
+│   └── [drwxrwxr-x user     user    ]  style
+│       └── [-rw-rw-r-- user     user    ]  style.css
+├── [-rw-rw-r-- user     user    ]  CODE_OF_CONDUCT.md
+├── [-rw-rw-r-- user     user    ]  CONTRIBUTING.md
+├── [-rw-rw-r-- user     user    ]  .dockerignore
+├── [-rw-rw-r-- user     user    ]  .gitattributes
+├── [-rw-rw-r-- user     user    ]  .gitignore
+├── [drwxrwxr-x user     user    ]  labs
+│   ├── [drwxrwxr-x user     user    ]  lab01
+│   │   ├── [-rw-rw-r-- user     user    ]  README.md
+│   │   └── [-rw-rw-r-- user     user    ]  typersteel.py
+│   ├── [drwxrwxr-x user     user    ]  lab02
+│   │   ├── [-rw-rw-r-- user     user    ]  exmpl_hello.py
+│   │   ├── [-rw-rw-r-- user     user    ]  nmapres.txt
+│   │   ├── [-rw-rw-r-- user     user    ]  pygamesteel.py
+│   │   ├── [-rw-rw-r-- user     user    ]  README.md
+│   │   └── [-rw-r----- user     readgroup]  screen
+│   ├── [drwxrwxr-x user     user    ]  lab03
+│   │   ├── [-rw-rw-r-- user     user    ]  exmp_targets.txt
+│   │   └── [-rw-rw-r-- user     user    ]  README.md
+│   ├── [drwxrwxr-x user     user    ]  lab04
+│   │   └── [-rw-rw-r-- user     user    ]  README.md
+│   ├── [drwxrwxr-x user     user    ]  lab05
+│   │   ├── [drwxrwxr-x user     user    ]  client
+│   │   │   ├── [-rw-rw-r-- user     user    ]  client.py
+│   │   │   ├── [-rw-rw-r-- user     user    ]  Dockerfile
+│   │   │   └── [-rw-rw-r-- user     user    ]  requirements.txt
+│   │   ├── [-rw-rw-r-- user     user    ]  docker-compose.yml
+│   │   ├── [-rw-rw-r-- user     user    ]  README.md
+│   │   ├── [drwxrwxr-x user     user    ]  server
+│   │   │   ├── [-rw-rw-r-- user     user    ]  app.py
+│   │   │   ├── [-rw-rw-r-- user     user    ]  Dockerfile
+│   │   │   └── [-rw-rw-r-- user     user    ]  requirements.txt
+│   │   └── [drwxrwxr-x user     user    ]  source
+│   │       ├── [-rw-rw-r-- user     user    ]  Dockerfile
+│   │       ├── [-rw-rw-r-- user     user    ]  hello.py
+│   │       └── [-rw-rw-r-- user     user    ]  requirements.txt
+│   └── [drwxrwxr-x user     user    ]  lab06
+│       └── [-rw-rw-r-- user     user    ]  README.md
+├── [-rw-rw-r-- user     user    ]  LICENSE.md
+├── [-rw-rw-r-- user     user    ]  NOTICE.md
+├── [-rw-rw-r-- user     user    ]  README.md
+└── [-rw-rw-r-- user     user    ]  SECURITY.md
+```
+
+- `-a` - все файлы включая скрытые
+- `-p` - права доступа
+- `-u` - владелец
+- `-g` - группа
+- `-I '.git'` - исключить `.git'`
+
 - [ ] 13. Выведите процессы которые у вас запущены в термине и вне его.
-- [ ] 14. Оформить `README.md` по аналогии и использовать `shield`, etc.
-- [ ] 15. Составить `gist` отчет и отправить ссылку личным сообщением
+```bash
+$ ps -ef --forest | grep $$
+user      318294  318293  0 03:57 pts/5    00:00:00          \_ -bash
+user      371954  318294  0 05:30 pts/5    00:00:00              \_ ps -ef --forest
+user      371955  318294  0 05:30 pts/5    00:00:00              \_ grep --color=auto 318294
+```
+
+- `-e` - Все процессы
+- `-f` - полный формат
+- `--forest` - деревом
+- `$$` - PID терминала
 
 ***
 
