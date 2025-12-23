@@ -103,20 +103,79 @@ $ nmap -iL targets.txt # множествнные цели сканирован�
 
 - [x] 1. Опишите используемые методы по их назначению, как они функционируют и какие результаты могут дать для оценки. Используйте сноску из материалов выше по флагам команд.
 
-| Тип | Флаг | Описание | Применение | Недостатки |
-| - | - | - | - | - |
-| TCP Connect | -sT | Полное TCP-соединение | надежное определение открытых портов, когда нет root-прав. Сканирование IPv6 | Не скрытный
-| TCP SYN | -sS | SYN -> SYN/ACK -> RST | Бвстрое и скрытное сканирование TCP-портов | требует root-прав |
-| TCP NULL | -sN | Пакет без флагов | Скрытное сканирование, обход простых FW/IDS | Большинство FW уже подстроились |
-| TCP FIN | -sF | Пакет с флагом FIN | Скрытное сканирование, обход простых FW/IDS | Большинство FW уже подстроились |
-| TCP XMAS | -sX | пакет с флагами FIN + PSH + URG | Скрытное сканирование, обход простых FW/IDS | Большинство FW уже подстроились |
-| TCP Idle | -sI | Сканирование через zombie-хост | Полностью скрытный | медленный, сложный, не факт что заработает
-| UDP | -sU | Сканирование UDP портов | Отправляет UDP-пакеты | медленный |
-| Aggressive | -A | Включает OS Detection (-O), Version detection (-sV), script scanning (-sC), traceroute | Комплексное сканирование | Очень заметный | 
+<table>
+    <thead>
+        <tr>
+            <th>Тип</th>
+            <th>Флаг</th>
+            <th>Описание</th>
+            <th>Применение</th>
+            <th>Недостатки</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>TCP Connect</td>
+            <td><code>-sT</code></td>
+            <td>Полное TCP-соединение</td>
+            <td>Надёжное определение открытых портов, когда нет root-прав. Сканирование IPv6</td>
+            <td>Не скрытный</td>
+        </tr>
+        <tr>
+            <td>TCP SYN</td>
+            <td><code>-sS</code></td>
+            <td>SYN → SYN/ACK → RST</td>
+            <td>Быстрое и скрытное сканирование TCP-портов</td>
+            <td>Требует root-прав</td>
+        </tr>
+        <tr>
+            <td>TCP NULL</td>
+            <td><code>-sN</code></td>
+            <td>Пакет без флагов</td>
+            <td>Скрытное сканирование, обход простых FW/IDS</td>
+            <td>Большинство FW уже подстроились</td>
+        </tr>
+        <tr>
+            <td>TCP FIN</td>
+            <td><code>-sF</code></td>
+            <td>Пакет с флагом FIN</td>
+            <td>Скрытное сканирование, обход простых FW/IDS</td>
+            <td>Большинство FW уже подстроились</td>
+        </tr>
+        <tr>
+            <td>TCP XMAS</td>
+            <td><code>-sX</code></td>
+            <td>Пакет с флагами FIN + PSH + URG</td>
+            <td>Скрытное сканирование, обход простых FW/IDS</td>
+            <td>Большинство FW уже подстроились</td>
+        </tr>
+        <tr>
+            <td>TCP Idle</td>
+            <td><code>-sI</code></td>
+            <td>Сканирование через zombie-хост</td>
+            <td>Полностью скрытный</td>
+            <td>Медленный, сложный, не факт что заработает</td>
+        </tr>
+        <tr>
+            <td>UDP</td>
+            <td><code>-sU</code></td>
+            <td>Сканирование UDP портов</td>
+            <td>Отправляет UDP-пакеты</td>
+            <td>Медленный</td>
+        </tr>
+        <tr>
+            <td>Aggressive</td>
+            <td><code>-A</code></td>
+            <td>Включает OS Detection (-O), Version detection (-sV), script scanning (-sC), traceroute</td>
+            <td>Комплексное сканирование</td>
+            <td>Очень заметный</td>
+        </tr>
+    </tbody>
+</table>
 
 - [ ] 2. Выведите на терминале и проанализируйте следующие команды консоли
 
----
+***
 Сканироване резервированных портов
 ```bash
 $ nmap localhost
@@ -132,7 +191,7 @@ PORT    STATE SERVICE
 Nmap done: 1 IP address (1 host up) scanned in 0.07 seconds
 
 ```
----
+***
 Сканирование с использование NSE-скриптов
 ```bash
 $ nmap -sC localhost
@@ -158,7 +217,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.75 seconds
 - Найден файл robots.txt с одной запрещённой директорией (/).
 - Заголовок страницы — "Home - CUPS 2.4.1", то есть это веб-интерфейс управления принтерами на http://localhost:631.
 
----
+***
 Сканирование с определением ОС
 ```bash
 $ nmap -O localhost
@@ -183,7 +242,7 @@ Nmap done: 1 IP address (1 host up) scanned in 2.30 seconds
 - Device type: general purpose (обычный компьютер/сервер).
 - Running: Linux 2.6.X (ядро Linux версии 2.6.x).
 - OS details: Linux 2.6.32 (конкретно определена версия ядра 2.6.32)
----
+***
 Сканирование заданных портов
 ```bash
 $ nmap -p 80 localhost
@@ -203,7 +262,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.02 seconds
 ```
 Открыт только 80 (открыл по ходу лабы через `python -m http.server 80`)
 
----
+***
 
 Сканирование 65535 портов
 ```bash
@@ -227,7 +286,7 @@ Nmap done: 1 IP address (1 host up) scanned in 0.14 seconds
 - 631/tcp — IPP (CUPS, система печати, веб-интерфейс на http://localhost:631).
 - 3462/tcp
 
----
+***
 Сканирование с определением версии
 ```bash
 $ nmap -sV -p 22,80 localhost
@@ -245,7 +304,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 6.37 seconds
 ```
 
----
+***
 ping сканирование подсети
 ```bash
 $ nmap -sP 10.0.2.0/24
@@ -260,7 +319,7 @@ Nmap done: 256 IP addresses (2 hosts up) scanned in 4.18 seconds
 - 10.0.2.15
 - 10.0.2.30
 
----
+***
 Шлюз - 10.0.2.2, хотя nmap не может до него достучаться
 ```bash
 $ ip route show | grep default
@@ -276,7 +335,7 @@ PING 10.0.2.2 (10.0.2.2) 56(84) bytes of data.
 64 bytes from 10.0.2.2: icmp_seq=1 ttl=64 time=0.975 ms
 64 bytes from 10.0.2.2: icmp_seq=2 ttl=64 time=0.385 ms
 ```
----
+***
 показывает в реальном времени все отправляемые и получаемые сетевые пакеты, соединения и низкоуровневые события
 ```bash
 $ nmap --packet-trace scanme.nmap.org
@@ -330,7 +389,7 @@ PORT      STATE SERVICE
 
 - Nmap продолжил проверку других популярных портов (5900 — часто VNC, и т.д.).
 
----
+***
 Показ сетевых интерфейсов и таблицы маршрутизации
 ```bash
 $ nmap --iflist
@@ -371,7 +430,7 @@ ff00::/8                     enp0s9  256
 ff00::/8                     enp0s8  256
 ff00::/8                     enp0s3  256
 ```
----
+***
 ACK-сканирование
 - Если приходит RST-пакет в ответ → порт unfiltered
 - Если ничего не приходит (или приходит ICMP unreachable) → порт filtered
@@ -386,7 +445,7 @@ All 1000 scanned ports on scanme.nmap.org (45.33.32.156) are unfiltered
 
 Nmap done: 1 IP address (1 host up) scanned in 0.27 seconds
 ```
----
+***
 SYN-сканирование без проверки живости порта
 ```bash
 $ nmap -PN scanme.nmap.org 
@@ -402,7 +461,7 @@ PORT      STATE SERVICE
 9929/tcp  open  nping-echo
 31337/tcp open  Elite
 ```
----
+***
 Сканирование с:
 - Определением версии сервисов
 - Применении скриптов vuln (проверка известных уязвимостей)
@@ -410,7 +469,7 @@ PORT      STATE SERVICE
 ```bash
 $ nmap -sV --script vuln -oN nmapres_new.txt localhost
 ```
----
+***
 Сканировние http порта с python-сервером
 ```bash
 $ mkdir -p ~/project/reports
@@ -424,8 +483,8 @@ $ xsltproc ~/project/reports/nmapres_new.xml -o ~/project/reports/nmapres_new.ht
 ```
 
 Полученный анализ .html
-![](./img/image.png)
----
+![Анализ 80 порта](./img/image.png)
+***
 
 Список файлов:
 - nmapres.txt - анализ 80 порта с скриптами vuln
