@@ -320,8 +320,7 @@ $ docker inspect shabalka/my-hello-appsec-world-lib
             "Env": [
                 "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
                 "LANG=C.UTF-8",
-                <!-- gitleaks:allow -->
-                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D",
+                "GPG_KEY=A035C8C19219BA821ECEA86B64E628F8D684696D", <!-- gitleaks:allow -->
                 "PYTHON_VERSION=3.11.14",
                 "PYTHON_SHA256=8d3ed8ec5c88c1c95f5e558612a725450d2452813ddad5e58fdb1a53b1209b78",
                 "PYTHONUNBUFFERED=1"
