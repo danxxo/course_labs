@@ -4,12 +4,12 @@ import time
 
 def colorful_print(text):
     colors = ["green", "red", "blue", "magenta", "yellow"]
-    
+
     for i, char in enumerate(text):
         color = colors[i % len(colors)]
         print(colored(char, color, force_color=True), end="", flush=True)
         time.sleep(0.15)
-    
+
     print()
 
 
