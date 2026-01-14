@@ -28,10 +28,10 @@ COPY requirements.txt .
 RUN pip install --no-index --find-links=/wheels -r requirements.txt
 
 # Копируем основной код приложения
-COPY hello.py .
+COPY new_hello.py .
 
 # Отключаем буферизацию вывода — логи будут сразу видны в docker logs
 ENV PYTHONUNBUFFERED=1
 
 # Команда, которая запускается при старте контейнера
-CMD ["python", "hello.py"]
+CMD ["python", "new_hello.py"]
